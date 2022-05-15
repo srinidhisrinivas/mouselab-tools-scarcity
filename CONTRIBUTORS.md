@@ -1,0 +1,7 @@
+- [Fred Callaway](https://github.com/fredcallaway)
+- [Sayan Gul](https://github.com/sayangul)
+- [Yash Raj Jain](https://github.com/yashrajjain)
+- [Falk Lieder](https://github.com/CognitiveGrowth)
+- [Valkyrie Felso](https://github.com/vmfelso)
+- [Ruiqi He](https://github.com/Reeche)
+- [Lovis Heindrich](https://github.com/lovis-heindrich)
