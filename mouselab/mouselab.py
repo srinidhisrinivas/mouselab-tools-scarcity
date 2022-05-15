@@ -2,8 +2,8 @@ import random
 
 import gym
 import numpy as np
-from contracts import contract
 from gym import spaces
+from pydantic import NonNegativeFloat
 from toolz import get, memoize
 
 from mouselab.distributions import PointMass, cmax, expectation, sample, smax
@@ -252,29 +252,25 @@ class MouselabEnv(gym.Env):
         return self.node_value_to(node, state) + self.node_value(node, state)
 
     # @lru_cache(CACHE_SIZE)
-    @contract
-    def myopic_voc(self, action, state) -> "float, >= -0.001":
+    def myopic_voc(self, action, state) -> NonNegativeFloat:
         return self.node_value_after_observe(
             (action,), 0, state
         ).expectation() - self.expected_term_reward(state)
 
     # @lru_cache(CACHE_SIZE)
-    @contract
-    def vpi_branch(self, action, state) -> "float, >= -0.001":
+    def vpi_branch(self, action, state) -> NonNegativeFloat:
         obs = self._relevant_subtree(action)
         return self.node_value_after_observe(
             obs, 0, state
         ).expectation() - self.expected_term_reward(state)
 
-    @contract
-    def vpi_action(self, action, state) -> "float, >= -0.001":
+    def vpi_action(self, action, state) -> NonNegativeFloat:
         obs = (*self.subtree[action][1:], *self.path_to(action)[1:])
         return self.node_value_after_observe(
             obs, 0, state
         ).expectation() - self.expected_term_reward(state)
 
-    @contract
-    def vpi(self, state) -> "float, >= -0.001":
+    def vpi(self, state) -> NonNegativeFloat:
         obs = self.subtree[0]
         return self.node_value_after_observe(
             obs, 0, state
