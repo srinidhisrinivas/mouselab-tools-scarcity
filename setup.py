@@ -9,6 +9,7 @@ setup(
     author="Fred Callaway, Sayan Gul, Yash Raj Jain",
     author_email="",
     description="",
+    setup_requires=["wheel"],
     install_requires=[
         "numpy",
         "scipy",
