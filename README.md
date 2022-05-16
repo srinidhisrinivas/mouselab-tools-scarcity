@@ -9,8 +9,8 @@ Tools for analysis and simulation of Mouselab MDP experiments.
 To install:
 
 ```
-git clone https://github.com/RationalityEnhancement/Rationality-Enhancement-Toolbox.git
-cd Rationality-Enhancement-Toolbox/MouseLab/
+git clone https://github.com/RationalityEnhancementGroup/mouselab-mdp-tools.git
+cd mouselab-mdp-tools
 pip install -e .
 ```
 
