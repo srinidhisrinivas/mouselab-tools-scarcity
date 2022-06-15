@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="mouselab",
-    version="",
+    version="0.0.1",
     packages=["mouselab", "mouselab.envs"],
     url="",
     license="",
