@@ -1,6 +1,6 @@
 executable = env/bin/python
 filename = src/q_value_calculation.py
-arguments = $(filename) $(experiment_setting:high_increasing)
+arguments = $(filename) $(experiment_setting:high_increasing) $(ground_truth_file:exp_inputs/rewards/312_2_4_24.json)
 output = log/output.stdout
 error  = log/output.stderr
 log   = log/output.log
