@@ -108,6 +108,9 @@ class MouselabEnv(gym.Env):
 
         self._hash = hash((str(self.tree), self.init, str(list(self.ground_truth))))
 
+        # Scarcity parameter
+        self._pct_reward = 1
+
     def __hash__(self):
         return self._hash
 
@@ -182,7 +185,7 @@ class MouselabEnv(gym.Env):
         Each outcome is (probability, next_state, reward).
         """
         if action == self.term_action:
-            yield (1, self.term_state, self.expected_term_reward(state))
+            yield (self._pct_reward, self.term_state, self.expected_term_reward(state))
         else:
             for r, p in state[action]:
                 s1 = list(state)

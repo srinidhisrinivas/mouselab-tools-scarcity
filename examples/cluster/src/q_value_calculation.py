@@ -8,6 +8,17 @@ from mouselab.exact_utils import timed_solve_env
 from mouselab.mouselab import MouselabEnv
 
 experiment_setting = sys.argv[1]
+try:
+    ground_truth_file = sys.argv[2]
+except:
+    ground_truth_file = None
+
+try:
+    percent_rewarded = float(sys.argv[3])
+except:
+    percent_rewarded = 1
+
+
 print("Experiment setting: {}".format(experiment_setting))
 # make folder we need
 Path(__file__).resolve().parents[1].joinpath("output").mkdir(
@@ -17,9 +28,13 @@ Path(__file__).resolve().parents[1].joinpath("output").mkdir(
 save_pi = True
 save_q = False
 
-states = get_ground_truths_from_json(ground_truth_file)
+if ground_truth_file is not None:
+    states = get_ground_truths_from_json(ground_truth_file)
+else:
+    states = None
 env_increasing = MouselabEnv.new_symmetric_registered(experiment_setting)
-q, v, pi, info = timed_solve_env(env_increasing, save_pi=save_pi, save_q=save_q)
+env_increasing._pct_reward = percent_rewarded;
+q, v, pi, info = timed_solve_env(env_increasing, save_pi=save_pi, save_q=save_q, ground_truths=states)
 
 file_prefix = "example_q_dict" if save_q else "example_pi_dict"
 
@@ -27,7 +42,7 @@ path = (
     Path(__file__)
     .resolve()
     .parents[1]
-    .joinpath(f"output/{file_prefix}_{experiment_setting}.pickle")
+    .joinpath(f"output/{file_prefix}_{experiment_setting}_{percent_rewarded}.pickle")
 )
 
 with open(path, "wb") as f:

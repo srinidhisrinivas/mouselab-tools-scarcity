@@ -1,10 +1,21 @@
 executable = env/bin/python
 filename = src/q_value_calculation.py
-arguments = $(filename) $(experiment_setting:high_increasing) $(ground_truth_file:exp_inputs/rewards/312_2_4_24.json)
-output = log/output.stdout
-error  = log/output.stderr
-log   = log/output.log
-request_memory = 16384
+arguments = $(filename) $(experiment_setting:high_increasing) $(ground_truth_file:exp_inputs/rewards/312_2_4_24.json) $(percent_rewarded:0.8)
+output = log/output_1.0.stdout
+error  = log/output_1.0.stderr
+log   = log/output_1.0.log
+request_memory = 8192
+request_cpus = 1
+
+queue
+
+executable = env/bin/python
+filename = src/q_value_calculation.py
+arguments = $(filename) $(experiment_setting:high_increasing) $(ground_truth_file:exp_inputs/rewards/312_2_4_24.json) $(percent_rewarded:0.8)
+output = log/output_0.8.stdout
+error  = log/output_0.8.stderr
+log   = log/output_0.8.log
+request_memory = 8192
 request_cpus = 1
 
 queue

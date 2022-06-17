@@ -38,14 +38,18 @@ def timed_solve_env(
             for s in env.initial_states:
                 V(s)
 
-        #  Save Q function
-        if save_q and ground_truths is not None:
+        #  Save Q function or Pi function
+        if ground_truths is not None:
             # In some cases, it is too costly to save whole Q function
-            info["q_dictionary"] = construct_partial_q_dictionary(Q, env, ground_truths)
-        elif save_q:
-            info["q_dictionary"] = construct_q_dictionary(Q, env, verbose)
-        elif save_pi:
-            info["pi_dictionary"] = construct_pi_dictionary(pi, env, verbose)
+            if save_q:
+                info["q_dictionary"] = construct_partial_q_dictionary(Q, env, ground_truths)
+            elif save_pi:
+                info["pi_dictionary"] = construct_partial_pi_dictionary(pi, env, ground_truths)
+        else:
+            if save_q:
+                info["q_dictionary"] = construct_q_dictionary(Q, env, verbose)
+            elif save_pi:
+                info["pi_dictionary"] = construct_pi_dictionary(pi, env, verbose)
 
     return Q, V, pi, info
 
@@ -87,3 +91,14 @@ def construct_partial_q_dictionary(Q, env, selected_ground_truths):
     sa = get_sa_pairs_from_states(all_possible_states)
     q_dictionary = {pair: Q(*pair) for pair in sa}
     return q_dictionary
+
+def construct_partial_pi_dictionary(pi, env, selected_ground_truths):
+    """
+    Construct pi dictionary for only specified ground truth values
+    """
+    all_possible_states = get_all_possible_states_for_ground_truths(
+        env, selected_ground_truths
+    )
+    pi_dictionary = {tuple(state): pi(tuple(state)) for state in all_possible_states}
+
+    return pi_dictionary
