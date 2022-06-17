@@ -15,15 +15,21 @@ Path(__file__).resolve().parents[1].joinpath("output").mkdir(
     parents=True, exist_ok=True
 )
 
-states = get_ground_truths_from_json(ground_truth_file)
+save_pi = True
+save_q = False
+
+# states = get_ground_truths_from_json(ground_truth_file)
 env_increasing = MouselabEnv.new_symmetric_registered(experiment_setting)
-q, v, pi, info = timed_solve_env(env_increasing, save_q=True, ground_truths=states)
+q, v, pi, info = timed_solve_env(env_increasing, save_pi=save_pi, save_q=save_q)
+
+file_prefix = "example_q_dict" if save_q else "example_pi_dict"
 
 path = (
     Path(__file__)
     .resolve()
     .parents[1]
-    .joinpath(f"output/example_q_dict_{experiment_setting}.pickle")
+    .joinpath(f"output/{file_prefix}_{experiment_setting}.pickle")
 )
+
 with open(path, "wb") as f:
     pickle.dump(info, f)

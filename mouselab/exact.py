@@ -112,7 +112,10 @@ def solve(env, hash_state=None, actions=None, blinkered=None):
             acts = tuple(a for a in acts if a in action_subset)
         return max((Q(s, a) for a in acts), default=0)
 
+    # Returns set of actions that yield the highest Q-value when in a given state
     def pi(s):
-        return max(actions(s), key=lambda a: Q(s, a))
+        action_vals = {a: Q(s, a) for a in actions(s)}
+        max_action_val = max(action_vals.values())
+        return [k for k, v in action_vals.items() if v == max_action_val]
 
     return Q, V, pi, info

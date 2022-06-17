@@ -4,12 +4,16 @@ from mouselab.env_utils import (
     get_all_possible_sa_pairs_for_env,
     get_all_possible_states_for_ground_truths,
     get_sa_pairs_from_states,
+    get_all_possible_states_for_env,
+    deduplicate_states
 )
 from mouselab.exact import solve
 
+import gc
+import resource
 
 def timed_solve_env(
-    env, verbose=True, save_q=False, ground_truths=None, **solve_kwargs
+    env, verbose=True, save_q=False, save_pi=False, ground_truths=None, **solve_kwargs
 ):
     """
     Solves environment, saves elapsed time and optionally prints value and elapsed time
@@ -29,20 +33,39 @@ def timed_solve_env(
                 for s, p in zip(env.initial_states, env.initial_state_probabilities)
             )
             print("optimal -> {:.2f} in {:.3f} sec".format(optimal_value, t.elapsed))
-        elif save_q:
+        elif (save_q or save_pi):
             # call V to cache q_dictionary
             for s in env.initial_states:
                 V(s)
 
         #  Save Q function
-        if save_q is not None and ground_truths is not None:
+        if save_q and ground_truths is not None:
             # In some cases, it is too costly to save whole Q function
             info["q_dictionary"] = construct_partial_q_dictionary(Q, env, ground_truths)
-        elif save_q is not None:
+        elif save_q:
             info["q_dictionary"] = construct_q_dictionary(Q, env, verbose)
+        elif save_pi:
+            info["pi_dictionary"] = construct_pi_dictionary(pi, env, verbose)
 
     return Q, V, pi, info
 
+def construct_pi_dictionary(pi, env, verbose=False):
+    """
+    Construct pi dictionary for env, given environment is solved 
+    """
+    all_states = get_all_possible_states_for_env(env)
+    dedup_states = deduplicate_states(
+        all_states, verbose=verbose
+    )
+    states_gen = (s for s in dedup_states)
+
+    print("States size: {}, Length: {}".format(dedup_states.__sizeof__(), len(dedup_states)));
+    print("Generator size: {}".format(states_gen.__sizeof__()));
+    del dedup_states
+    gc.collect()
+    pi_dict = {tuple(state): pi(tuple(state)) for state in states_gen}
+    print("Pi Dict size: {}".format(pi_dict.__sizeof__()));
+    return pi_dict
 
 def construct_q_dictionary(Q, env, verbose=False):
     """

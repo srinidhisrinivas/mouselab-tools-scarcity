@@ -49,7 +49,24 @@ def get_all_possible_ground_truths(categorical_gym_env):
     ]
 
     possible_ground_truths = product(*possible_vals)
+
     return possible_ground_truths
+
+def get_all_possible_states_for_ground_truths_gen(categorical_gym_env, ground_truths):
+    """
+    Get all possible states for a list of ground truths
+    (works with iterable of ground truths)
+    """
+
+    categorical_gym_env.reset()
+    unrevealed_state = categorical_gym_env._state
+
+    for possible_ground_truth in ground_truths:
+        states = get_possible_states_for_ground_truth(
+            possible_ground_truth, unrevealed_state
+        )
+        for state in states:
+            yield state;
 
 
 def get_all_possible_states_for_ground_truths(categorical_gym_env, ground_truths):
@@ -70,6 +87,21 @@ def get_all_possible_states_for_ground_truths(categorical_gym_env, ground_truths
 
     return all_states
 
+def get_all_possible_states_for_env_gen(categorical_gym_env):
+    """
+    Gets all possible states for a MouselabEnv
+    :param categorical_gym_env, instance of MouselabEnv
+                with categorical or revealed states only
+    :return: a list of all possible states
+                (i.e. for all ground truths, all possibly uncovered nodes)
+    """
+    possible_ground_truths = get_all_possible_ground_truths(categorical_gym_env)
+
+    all_states = get_all_possible_states_for_ground_truths_gen(
+        categorical_gym_env, possible_ground_truths
+    )
+
+    return all_states
 
 def get_all_possible_states_for_env(categorical_gym_env):
     """
