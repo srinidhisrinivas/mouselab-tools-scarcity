@@ -8,7 +8,6 @@ from mouselab.exact_utils import timed_solve_env
 from mouselab.mouselab import MouselabEnv
 
 experiment_setting = sys.argv[1]
-ground_truth_file = sys.argv[2]
 
 # make folder we need
 Path(__file__).resolve().parents[1].joinpath("output").mkdir(
