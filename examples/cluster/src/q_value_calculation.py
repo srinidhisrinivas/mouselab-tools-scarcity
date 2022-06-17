@@ -8,7 +8,7 @@ from mouselab.exact_utils import timed_solve_env
 from mouselab.mouselab import MouselabEnv
 
 experiment_setting = sys.argv[1]
-
+print("Experiment setting: {}".format(experiment_setting))
 # make folder we need
 Path(__file__).resolve().parents[1].joinpath("output").mkdir(
     parents=True, exist_ok=True
