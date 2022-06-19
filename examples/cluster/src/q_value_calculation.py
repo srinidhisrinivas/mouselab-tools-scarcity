@@ -18,6 +18,17 @@ try:
 except:
     percent_rewarded = 1
 
+try:
+    save = sys.argv[4]
+    if save == "q":
+        save_pi = False
+        save_q = True
+    elif save == "pi":
+        save_pi = True
+        save_q = False
+except:
+    save_pi = True
+    save_q = False
 
 print("Experiment setting: {}".format(experiment_setting))
 # make folder we need
@@ -25,16 +36,13 @@ Path(__file__).resolve().parents[1].joinpath("output").mkdir(
     parents=True, exist_ok=True
 )
 
-save_pi = True
-save_q = False
-
 if ground_truth_file is not None:
     states = get_ground_truths_from_json(ground_truth_file)
 else:
     states = None
 env_increasing = MouselabEnv.new_symmetric_registered(experiment_setting)
-env_increasing._pct_reward = percent_rewarded;
-q, v, pi, info = timed_solve_env(env_increasing, save_pi=save_pi, save_q=save_q, ground_truths=states)
+env_increasing._pct_reward = percent_rewarded
+q, v, pi, info = timed_solve_env(env_increasing, save_pi=save_pi, save_q=save_q, ground_truths=states, verbose=True)
 
 file_prefix = "example_q_dict" if save_q else "example_pi_dict"
 

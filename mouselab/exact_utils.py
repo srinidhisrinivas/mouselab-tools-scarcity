@@ -10,7 +10,6 @@ from mouselab.env_utils import (
 from mouselab.exact import solve
 
 import gc
-import resource
 
 def timed_solve_env(
     env, verbose=True, save_q=False, save_pi=False, ground_truths=None, **solve_kwargs
@@ -33,6 +32,8 @@ def timed_solve_env(
                 for s, p in zip(env.initial_states, env.initial_state_probabilities)
             )
             print("optimal -> {:.2f} in {:.3f} sec".format(optimal_value, t.elapsed))
+            print("Percentage trials rewarded: {}".format(env._pct_reward))
+            print("Ground truths found? {}".format(ground_truths is not None))
         elif (save_q or save_pi):
             # call V to cache q_dictionary
             for s in env.initial_states:
@@ -42,13 +43,17 @@ def timed_solve_env(
         if ground_truths is not None:
             # In some cases, it is too costly to save whole Q function
             if save_q:
+                print("Getting partial Q")
                 info["q_dictionary"] = construct_partial_q_dictionary(Q, env, ground_truths)
             elif save_pi:
+                print("Getting pi Q")
                 info["pi_dictionary"] = construct_partial_pi_dictionary(pi, env, ground_truths)
         else:
             if save_q:
+                print("Getting full Q")
                 info["q_dictionary"] = construct_q_dictionary(Q, env, verbose)
             elif save_pi:
+                print("Getting full pi")
                 info["pi_dictionary"] = construct_pi_dictionary(pi, env, verbose)
 
     return Q, V, pi, info
