@@ -36,7 +36,7 @@ filename = src/q_value_calculation.py
 arguments = $(filename) $(experiment_setting:high_increasing) $(ground_truth_file:exp_inputs/rewards/312_2_4_24.json) $(percent_rewarded:0.8) $(save:q)
 output = log/output_q_0.8.stdout
 error  = log/output_q_0.8.stderr
-log   = log/output_0.8.log
+log   = log/output_q_0.8.log
 request_memory = 50000
 request_cpus = 1
 
