@@ -1,9 +1,9 @@
 executable = env/bin/python
 filename = src/q_value_calculation.py
 arguments = $(filename) $(experiment_setting:high_increasing) $(ground_truth_file:exp_inputs/rewards/312_2_4_24.json) $(percent_rewarded:1.0) $(save:pi)
-output = log/compute_policy/$(percent_rewarded)/output_pi.stdout
-error  = log/compute_policy/$(percent_rewarded)/output_pi.stderr
-log   = log/compute_policy/$(percent_rewarded)/output_pi.log
+output = log/compute_policy/1.0/output_pi.stdout
+error  = log/compute_policy/1.0/output_pi.stderr
+log   = log/compute_policy/1.0/output_pi.log
 request_memory = 16384
 request_cpus = 1
 
@@ -12,9 +12,9 @@ queue
 executable = env/bin/python
 filename = src/q_value_calculation.py
 arguments = $(filename) $(experiment_setting:high_increasing) $(ground_truth_file:exp_inputs/rewards/312_2_4_24.json) $(percent_rewarded:0.8) $(save:pi)
-output = log/compute_policy/$(percent_rewarded)/output_pi.stdout
-error  = log/compute_policy/$(percent_rewarded)/output_pi.stderr
-log   = log/compute_policy/$(percent_rewarded)/output_pi.log
+output = log/compute_policy/0.8/output_pi.stdout
+error  = log/compute_policy/0.8/output_pi.stderr
+log   = log/compute_policy/0.8/output_pi.log
 request_memory = 16384
 request_cpus = 1
 
@@ -23,9 +23,9 @@ queue
 executable = env/bin/python
 filename = src/q_value_calculation.py
 arguments = $(filename) $(experiment_setting:high_increasing) $(ground_truth_file:exp_inputs/rewards/312_2_4_24.json) $(percent_rewarded:0.6) $(save:pi)
-output = log/compute_policy/$(percent_rewarded)/output_pi.stdout
-error  = log/compute_policy/$(percent_rewarded)/output_pi.stderr
-log   = log/compute_policy/$(percent_rewarded)/output_pi.log
+output = log/compute_policy/0.6/output_pi.stdout
+error  = log/compute_policy/0.6/output_pi.stderr
+log   = log/compute_policy/0.6/output_pi.log
 request_memory = 16384
 request_cpus = 1
 
@@ -34,9 +34,9 @@ queue
 executable = env/bin/python
 filename = src/q_value_calculation.py
 arguments = $(filename) $(experiment_setting:high_increasing) $(ground_truth_file:exp_inputs/rewards/312_2_4_24.json) $(percent_rewarded:0.5) $(save:pi)
-output = log/compute_policy/$(percent_rewarded)/output_pi.stdout
-error  = log/compute_policy/$(percent_rewarded)/output_pi.stderr
-log   = log/compute_policy/$(percent_rewarded)/output_pi.log
+output = log/compute_policy/0.5/output_pi.stdout
+error  = log/compute_policy/0.5/output_pi.stderr
+log   = log/compute_policy/0.5/output_pi.log
 request_memory = 16384
 request_cpus = 1
 

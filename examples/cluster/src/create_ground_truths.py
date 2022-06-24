@@ -32,7 +32,6 @@ register(
     reward_dictionary=small_decreasing_reward,
 )
 
-experiment_setting = "narrow_small_decreasing"
 env_increasing = MouselabEnv.new_symmetric_registered(experiment_setting)
 
 outpath = Path(__file__).resolve().parents[1].joinpath(f"exp_inputs/rewards/g_truths.json")
@@ -41,7 +40,7 @@ glist = []
 for i in range(number):
     sampled = (list(map(sample, env_increasing.init)))
     glist.append({
-        "trialId" : random.randint(100000000000, 999999999999),
+        "trial_id" : random.randint(100000000000, 999999999999),
         "stateRewards" : [float(s) for s in sampled]
     })
 
