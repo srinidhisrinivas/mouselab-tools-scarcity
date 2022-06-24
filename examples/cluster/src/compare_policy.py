@@ -76,6 +76,7 @@ for state, actions_2 in dict2.items():
         num_diff += 1
         diff_dict[state] = { "1": actions_1, "2": actions_2 }
 
+print("{} vs. {}".format(reward_pct_1, reward_pct_2))
 print("Length of dict 1: {}".format(len(dict1)))
 print("Length of dict 2: {}".format(len(dict2)))
 print("Number of similar actions: {}".format(num_equal))
