@@ -4,7 +4,7 @@ arguments = $(filename) $(experiment_setting:high_increasing) $(reward_pct_1:1.0
 output = log/compare_policies/output_1.0_0.8.stdout
 error  = log/compare_policies/output_1.0_0.8.stderr
 log   = log/compare_policies/output_1.0_0.8.log
-request_memory = 2000
+request_memory = 10000
 request_cpus = 1
 
 queue
@@ -15,7 +15,7 @@ arguments = $(filename) $(experiment_setting:high_increasing) $(reward_pct_1:1.0
 output = log/compare_policies/output_1.0_0.6.stdout
 error  = log/compare_policies/output_1.0_0.6.stderr
 log   = log/compare_policies/output_1.0_0.6.log
-request_memory = 2000
+request_memory = 10000
 request_cpus = 1
 
 queue
@@ -26,7 +26,7 @@ arguments = $(filename) $(experiment_setting:high_increasing) $(reward_pct_1:1.0
 output = log/compare_policies/output_1.0_0.5.stdout
 error  = log/compare_policies/output_1.0_0.5.stderr
 log   = log/compare_policies/output_1.0_0.5.log
-request_memory = 2000
+request_memory = 10000
 request_cpus = 1
 
 queue
@@ -37,7 +37,7 @@ arguments = $(filename) $(experiment_setting:high_increasing) $(reward_pct_1:0.8
 output = log/compare_policies/output_0.8_0.6.stdout
 error  = log/compare_policies/output_0.8_0.6.stderr
 log   = log/compare_policies/output_0.8_0.6.log
-request_memory = 2000
+request_memory = 10000
 request_cpus = 1
 
 queue
