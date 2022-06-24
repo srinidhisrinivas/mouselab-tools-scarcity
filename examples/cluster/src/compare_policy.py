@@ -76,6 +76,8 @@ for state, actions_2 in dict2.items():
         num_diff += 1
         diff_dict[state] = { "1": actions_1, "2": actions_2 }
 
+print("Length of dict 1: {}".format(len(dict1)))
+print("Length of dict 2: {}".format(len(dict2)))
 print("Number of similar actions: {}".format(num_equal))
 print("Number of subset actions: {}".format(num_sub))
 print("Number of intersection actions: {}".format(num_int))
@@ -119,3 +121,4 @@ if len(int_dict) > 0:
     )
     with open(diff_path, 'wb') as f:
         pickle.dump(int_dict, f)
+
