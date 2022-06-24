@@ -77,6 +77,8 @@ for state, actions_2 in dict2.items():
         diff_dict[state] = { "1": actions_1, "2": actions_2 }
 
 print("Number of similar actions: {}".format(num_equal))
+print("Number of subset actions: {}".format(num_sub))
+print("Number of intersection actions: {}".format(num_int))
 print("Number of differing actions: {}".format(num_diff))
 
 # make folder we need
