@@ -46,7 +46,7 @@ def timed_solve_env(
                 print("Getting partial Q")
                 info["q_dictionary"] = construct_partial_q_dictionary(Q, env, ground_truths)
             elif save_pi:
-                print("Getting pi Q")
+                print("Getting partial pi")
                 info["pi_dictionary"] = construct_partial_pi_dictionary(pi, env, ground_truths)
         else:
             if save_q:

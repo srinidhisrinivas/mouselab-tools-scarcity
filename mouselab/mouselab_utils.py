@@ -6,6 +6,12 @@ from toolz import partition_all
 from mouselab.agents import Agent
 from mouselab.envs.registry import registry
 from mouselab.mouselab import MouselabEnv
+from mouselab.distributions import sample
+
+def sample_single_ground_truth(env):
+    sampled = list(map(sample, env.init))
+    print(sampled)
+    return sampled
 
 
 def make_envs(cost=1.00, n=100, seed=None, env_type="constant_high"):
