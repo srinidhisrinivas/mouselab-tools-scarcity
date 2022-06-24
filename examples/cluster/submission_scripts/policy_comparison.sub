@@ -4,7 +4,40 @@ arguments = $(filename) $(experiment_setting:high_increasing) $(reward_pct_1:1.0
 output = log/compare_policies/output_$(reward_pct_1)_$(reward_pct_2).stdout
 error  = log/compare_policies/output_$(reward_pct_1)_$(reward_pct_2).stderr
 log   = log/compare_policies/output_$(reward_pct_1)_$(reward_pct_2).log
-request_memory = 10000
+request_memory = 2000
+request_cpus = 1
+
+queue
+
+executable = env/bin/python
+filename = src/compare_policy.py
+arguments = $(filename) $(experiment_setting:high_increasing) $(reward_pct_1:1.0) $(reward_pct_2:0.6)
+output = log/compare_policies/output_$(reward_pct_1)_$(reward_pct_2).stdout
+error  = log/compare_policies/output_$(reward_pct_1)_$(reward_pct_2).stderr
+log   = log/compare_policies/output_$(reward_pct_1)_$(reward_pct_2).log
+request_memory = 2000
+request_cpus = 1
+
+queue
+
+executable = env/bin/python
+filename = src/compare_policy.py
+arguments = $(filename) $(experiment_setting:high_increasing) $(reward_pct_1:1.0) $(reward_pct_2:0.5)
+output = log/compare_policies/output_$(reward_pct_1)_$(reward_pct_2).stdout
+error  = log/compare_policies/output_$(reward_pct_1)_$(reward_pct_2).stderr
+log   = log/compare_policies/output_$(reward_pct_1)_$(reward_pct_2).log
+request_memory = 2000
+request_cpus = 1
+
+queue
+
+executable = env/bin/python
+filename = src/compare_policy.py
+arguments = $(filename) $(experiment_setting:high_increasing) $(reward_pct_1:0.8) $(reward_pct_2:0.6)
+output = log/compare_policies/output_$(reward_pct_1)_$(reward_pct_2).stdout
+error  = log/compare_policies/output_$(reward_pct_1)_$(reward_pct_2).stderr
+log   = log/compare_policies/output_$(reward_pct_1)_$(reward_pct_2).log
+request_memory = 2000
 request_cpus = 1
 
 queue
