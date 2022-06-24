@@ -1,10 +1,10 @@
 executable = env/bin/python
 filename = src/q_value_calculation.py
 arguments = $(filename) $(experiment_setting:high_increasing) $(ground_truth_file:exp_inputs/rewards/312_2_4_24.json) $(percent_rewarded:1.0) $(save:pi)
-output = log/output_pi_1.0.stdout
-error  = log/output_pi_1.0.stderr
-log   = log/output_pi_1.0.log
-request_memory = 100000
+output = log/compute_policy/1.0/output_pi.stdout
+error  = log/compute_policy/1.0/output_pi.stderr
+log   = log/compute_policy/1.0/output_pi.log
+request_memory = 16384
 request_cpus = 1
 
 queue
@@ -12,10 +12,10 @@ queue
 executable = env/bin/python
 filename = src/q_value_calculation.py
 arguments = $(filename) $(experiment_setting:high_increasing) $(ground_truth_file:exp_inputs/rewards/312_2_4_24.json) $(percent_rewarded:0.8) $(save:pi)
-output = log/output_pi_0.8.stdout
-error  = log/output_pi_0.8.stderr
-log   = log/output_pi_0.8.log
-request_memory = 100000
+output = log/compute_policy/0.8/output_pi.stdout
+error  = log/compute_policy/0.8/output_pi.stderr
+log   = log/compute_policy/0.8/output_pi.log
+request_memory = 16384
 request_cpus = 1
 
 queue
@@ -23,10 +23,10 @@ queue
 executable = env/bin/python
 filename = src/q_value_calculation.py
 arguments = $(filename) $(experiment_setting:high_increasing) $(ground_truth_file:exp_inputs/rewards/312_2_4_24.json) $(percent_rewarded:1.0) $(save:q)
-output = log/output_q_1.0.stdout
-error  = log/output_q_1.0.stderr
-log   = log/output_q_1.0.log
-request_memory = 50000
+output = log/compute_policy/1.0/output_q.stdout
+error  = log/compute_policy/1.0/output_q.stderr
+log   = log/compute_policy/1.0/output_q.log
+request_memory = 16384
 request_cpus = 1
 
 queue
@@ -34,10 +34,10 @@ queue
 executable = env/bin/python
 filename = src/q_value_calculation.py
 arguments = $(filename) $(experiment_setting:high_increasing) $(ground_truth_file:exp_inputs/rewards/312_2_4_24.json) $(percent_rewarded:0.8) $(save:q)
-output = log/output_q_0.8.stdout
-error  = log/output_q_0.8.stderr
-log   = log/output_q_0.8.log
-request_memory = 50000
+output = log/compute_policy/0.8/output_q.stdout
+error  = log/compute_policy/0.8/output_q.stderr
+log   = log/compute_policy/0.8/output_q.log
+request_memory = 16384
 request_cpus = 1
 
 queue
