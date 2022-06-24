@@ -1,9 +1,9 @@
 executable = env/bin/python
 filename = src/compare_policy.py
-arguments = $(experiment_setting:high_increasing) $(reward_pct_1:1.0) $(reward_pct_2:0.8)
-output = log/compare_policies/output_1.0_0.8.stdout
-error  = log/compare_policies/output_1.0_0.8.stderr
-log   = log/compare_policies/output_1.0_0.8.log
+arguments = $(filename) $(experiment_setting:high_increasing) $(reward_pct_1:1.0) $(reward_pct_2:0.8)
+output = log/compare_policies/output_$(reward_pct_1)_$(reward_pct_2).stdout
+error  = log/compare_policies/output_$(reward_pct_1)_$(reward_pct_2).stderr
+log   = log/compare_policies/output_$(reward_pct_1)_$(reward_pct_2).log
 request_memory = 10000
 request_cpus = 1
 
