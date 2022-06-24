@@ -4,7 +4,7 @@ from pathlib import Path
 import json
 
 try:
-    file_name = sys.argv[1]
+    file_path = sys.argv[1]
 except:
     raise "Filename not present"
 
@@ -17,7 +17,7 @@ path = (
         Path(__file__)
         .resolve()
         .parents[1]
-        .joinpath(f"output/{file_name}.pickle")
+        .joinpath(file_path)
     )
 
 try:
