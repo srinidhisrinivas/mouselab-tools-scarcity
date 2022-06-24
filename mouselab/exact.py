@@ -100,7 +100,7 @@ def solve(env, hash_state=None, actions=None, blinkered=None):
     def Q(s, a):
         info["q"] += 1
         action_subset = subset_actions(a)
-        return sum(p * (r + V(s1, action_subset)) for p, s1, r in env.results(s, a))
+        return round(sum(p * (r + V(s1, action_subset)) for p, s1, r in env.results(s, a)), 4)
 
     @memoize(key=hash_key)
     def V(s, action_subset=None):
@@ -113,8 +113,10 @@ def solve(env, hash_state=None, actions=None, blinkered=None):
         return max((Q(s, a) for a in acts), default=0)
 
     # Returns set of actions that yield the highest Q-value when in a given state
-    def pi(s):
+    def pi(s, print_Qs=False):
         action_vals = {a: Q(s, a) for a in actions(s)}
+        if print_Qs:
+            print(action_vals)
         max_action_val = max(action_vals.values())
         return [k for k, v in action_vals.items() if v == max_action_val]
 
