@@ -44,7 +44,7 @@ env_increasing = MouselabEnv.new_symmetric_registered(experiment_setting)
 env_increasing._pct_reward = percent_rewarded
 q, v, pi, info = timed_solve_env(env_increasing, save_pi=save_pi, save_q=save_q, ground_truths=states, verbose=True)
 
-file_prefix = "example_q_dict" if save_q else "example_pi_dict"
+file_prefix = "q_dict" if save_q else "pi_dict"
 
 path = (
     Path(__file__)

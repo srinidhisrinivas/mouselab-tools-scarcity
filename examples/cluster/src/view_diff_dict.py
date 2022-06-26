@@ -23,8 +23,14 @@ path = (
 try:
     with open(path, "rb") as f:
         loaded = pickle.load(f)
-        for i, (k,v) in enumerate(loaded.items()):
-            print("\n{}\n1: {} \n2: {}\n".format(k, v["1"], v["2"]))
+        for i, (state, outcomes) in enumerate(loaded.items()):
+            print("\n{}\n1:\n{}\n{}\n2:\n{}\n{}".format(
+                state,
+                outcomes["1"]["max_actions"],
+                outcomes["1"]["q_values"],
+                outcomes["2"]["max_actions"],
+                outcomes["1"]["q_values"]
+            ))
             if (i+1) > number:
                 break
 except:

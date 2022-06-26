@@ -111,6 +111,9 @@ class MouselabEnv(gym.Env):
         # Scarcity parameter
         self._pct_reward = 1
 
+        # Is scarce trial
+        self._is_scarce = False
+
     def __hash__(self):
         return self._hash
 
@@ -132,7 +135,7 @@ class MouselabEnv(gym.Env):
         if self._state is self.term_state:
             assert 0, "state is terminal"
         if action == self.term_action:
-            reward = self._term_reward()
+            reward = self._term_reward() if not self._is_scarce else 0
             self._state = self.term_state
             done = True
         elif not hasattr(self._state[action], "sample"):  # already observed

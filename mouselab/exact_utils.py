@@ -72,9 +72,15 @@ def construct_pi_dictionary(pi, env, verbose=False):
     print("Generator size: {}".format(states_gen.__sizeof__()));
     del dedup_states
     gc.collect()
-    pi_dict = {tuple(state): pi(tuple(state)) for state in states_gen}
-    print("Pi Dict size: {}".format(pi_dict.__sizeof__()));
-    return pi_dict
+    pi_dictionary = {}
+    for state in states_gen:
+        max_actions, q_values = pi(tuple(state))
+        pi_dictionary[tuple(state)] = {
+            "max_actions": max_actions,
+            "q_values": q_values
+        }
+    print("Pi Dict size: {}".format(pi_dictionary.__sizeof__()));
+    return pi_dictionary
 
 def construct_q_dictionary(Q, env, verbose=False):
     """
@@ -104,6 +110,12 @@ def construct_partial_pi_dictionary(pi, env, selected_ground_truths):
     all_possible_states = get_all_possible_states_for_ground_truths(
         env, selected_ground_truths
     )
-    pi_dictionary = {tuple(state): pi(tuple(state)) for state in all_possible_states}
+    pi_dictionary = {}
+    for state in all_possible_states:
+        max_actions, q_values = pi(tuple(state))
+        pi_dictionary[tuple(state)] = {
+            "max_actions": max_actions,
+            "q_values": q_values
+        }
 
     return pi_dictionary

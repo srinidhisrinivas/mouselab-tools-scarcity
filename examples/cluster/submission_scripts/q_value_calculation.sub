@@ -4,7 +4,7 @@ arguments = $(filename) $(experiment_setting:high_increasing) $(ground_truth_fil
 output = log/compute_policy/1.0/output_pi.stdout
 error  = log/compute_policy/1.0/output_pi.stderr
 log   = log/compute_policy/1.0/output_pi.log
-request_memory = 16384
+request_memory = 20000
 request_cpus = 1
 
 queue
@@ -15,7 +15,7 @@ arguments = $(filename) $(experiment_setting:high_increasing) $(ground_truth_fil
 output = log/compute_policy/0.8/output_pi.stdout
 error  = log/compute_policy/0.8/output_pi.stderr
 log   = log/compute_policy/0.8/output_pi.log
-request_memory = 16384
+request_memory = 20000
 request_cpus = 1
 
 queue
@@ -26,7 +26,7 @@ arguments = $(filename) $(experiment_setting:high_increasing) $(ground_truth_fil
 output = log/compute_policy/0.6/output_pi.stdout
 error  = log/compute_policy/0.6/output_pi.stderr
 log   = log/compute_policy/0.6/output_pi.log
-request_memory = 16384
+request_memory = 20000
 request_cpus = 1
 
 queue
@@ -37,7 +37,7 @@ arguments = $(filename) $(experiment_setting:high_increasing) $(ground_truth_fil
 output = log/compute_policy/0.5/output_pi.stdout
 error  = log/compute_policy/0.5/output_pi.stderr
 log   = log/compute_policy/0.5/output_pi.log
-request_memory = 16384
+request_memory = 20000
 request_cpus = 1
 
 queue

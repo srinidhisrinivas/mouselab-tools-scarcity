@@ -21,14 +21,14 @@ path_1 = (
     Path(__file__)
     .resolve()
     .parents[1]
-    .joinpath(f"output/example_pi_dict_{experiment_setting}_{reward_pct_1}.pickle")
+    .joinpath(f"output/pi_dict_{experiment_setting}_{reward_pct_1}.pickle")
 )
 
 path_2 = (
     Path(__file__)
     .resolve()
     .parents[1]
-    .joinpath(f"output/example_pi_dict_{experiment_setting}_{reward_pct_2}.pickle")
+    .joinpath(f"output/pi_dict_{experiment_setting}_{reward_pct_2}.pickle")
 )
 
 try:
@@ -62,19 +62,48 @@ diff_dict = {}
 sub_dict = {}
 int_dict = {}
 
-for state, actions_2 in dict2.items():
-    actions_1 = dict1[state]
+for state, outcomes_2 in dict2.items():
+    outcomes_1 = dict1[state]
+    actions_1 = outcomes_1["max_actions"]
+    actions_2 = outcomes_2["max_actions"]
     if set(actions_1) == set(actions_2):
         num_equal += 1
     elif set(actions_2).issubset(set(actions_1)):
         num_sub += 1
-        sub_dict[state] = { "1": actions_1, "2": actions_2 }
+        sub_dict[state] = {
+            "1": {
+                "max_actions": actions_1,
+                "q_values": outcomes_1["q_values"]
+            },
+            "2": {
+                "max_actions": actions_2,
+                "q_values": outcomes_2["q_values"]
+            }
+        }
     elif len(set(actions_1).intersection(set(actions_2))):
         num_int += 1
-        int_dict[state] = { "1": actions_1, "2": actions_2 }
+        int_dict[state] = {
+            "1": {
+                "max_actions": actions_1,
+                "q_values": outcomes_1["q_values"]
+            },
+            "2": {
+                "max_actions": actions_2,
+                "q_values": outcomes_2["q_values"]
+            }
+        }
     else:
         num_diff += 1
-        diff_dict[state] = { "1": actions_1, "2": actions_2 }
+        diff_dict[state] = {
+            "1": {
+                "max_actions": actions_1,
+                "q_values": outcomes_1["q_values"]
+            },
+            "2": {
+                "max_actions": actions_2,
+                "q_values": outcomes_2["q_values"]
+            }
+        }
 
 print("{} vs. {}".format(reward_pct_1, reward_pct_2))
 print("Length of dict 1: {}".format(len(dict1)))

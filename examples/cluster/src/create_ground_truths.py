@@ -32,6 +32,20 @@ register(
     reward_dictionary=small_decreasing_reward,
 )
 
+medium_decreasing_reward = {
+    1: Categorical([-48, -24, 24, 48]),
+    2: Categorical([-8, -4, 4, 8]),
+    3: Categorical([-4, -2, 2, 4]),
+}
+
+# create narrow_large_increasing
+register(
+    name="medium_decreasing",
+    branching=[1,2,2],
+    reward_inputs=["depth"],
+    reward_dictionary=medium_decreasing_reward,
+)
+
 env_increasing = MouselabEnv.new_symmetric_registered(experiment_setting)
 
 outpath = Path(__file__).resolve().parents[1].joinpath(f"exp_inputs/rewards/g_truths.json")
