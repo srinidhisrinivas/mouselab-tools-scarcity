@@ -179,7 +179,7 @@ policy_functions = {
 }
 
 #--- Running the simulation for all policies ---
-policies_to_simulate = ["optimal", "level-3"]  # optimal, level-1, level-2, level-3
+policies_to_simulate = ["optimal", "level-1", "level-2", "level-3"]  # optimal, level-1, level-2, level-3
 simulation_trial_outcomes = {policy: deepcopy(outcome_template) for policy in policies_to_simulate}
 
 for policy in policies_to_simulate:
@@ -242,7 +242,7 @@ for compare_policy in policies_to_simulate[1:]:
     per_trial_benefits[compare_policy] = sum(per_trial_benefit_factors)/len(per_trial_benefit_factors)
 
 # --- Display Results of Simulations ---
-print("--- Simulation Results ---")
+print("--- Simulation Results: {} ---".format(reward_pct_1))
 print("\n")
 for policy, outcomes in simulation_trial_outcomes.items():
     print("Policy: {}\n".format(policy))

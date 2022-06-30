@@ -1,0 +1,43 @@
+executable = env/bin/python
+filename = src/simulate_policy.py
+arguments = $(filename) $(experiment_setting:high_increasing) $(ground_truth_file:exp_inputs/rewards/312_2_4_24.json) $(num_trials:100000) $(reward_pct_1:1.0)
+output = log/simulate_policies/output_1.0.stdout
+error  = log/simulate_policies/output_1.0.stderr
+log   = log/simulate_policies/output_1.0.log
+request_memory = 10000
+request_cpus = 1
+
+queue
+
+executable = env/bin/python
+filename = src/simulate_policy.py
+arguments = $(filename) $(experiment_setting:high_increasing) $(ground_truth_file:exp_inputs/rewards/312_2_4_24.json) $(num_trials:100000) $(reward_pct_1:0.8)
+output = log/simulate_policies/output_0.8.stdout
+error  = log/simulate_policies/output_0.8.stderr
+log   = log/simulate_policies/output_0.8.log
+request_memory = 10000
+request_cpus = 1
+
+queue
+
+executable = env/bin/python
+filename = src/simulate_policy.py
+arguments = $(filename) $(experiment_setting:high_increasing) $(ground_truth_file:exp_inputs/rewards/312_2_4_24.json) $(num_trials:100000) $(reward_pct_1:0.6)
+output = log/simulate_policies/output_0.6.stdout
+error  = log/simulate_policies/output_0.6.stderr
+log   = log/simulate_policies/output_0.6.log
+request_memory = 10000
+request_cpus = 1
+
+queue
+
+executable = env/bin/python
+filename = src/simulate_policy.py
+arguments = $(filename) $(experiment_setting:high_increasing) $(ground_truth_file:exp_inputs/rewards/312_2_4_24.json) $(num_trials:100000) $(reward_pct_1:0.5)
+output = log/simulate_policies/output_0.5.stdout
+error  = log/simulate_policies/output_0.5.stderr
+log   = log/simulate_policies/output_0.5.log
+request_memory = 10000
+request_cpus = 1
+
+queue
