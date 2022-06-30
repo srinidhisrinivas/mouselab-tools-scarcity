@@ -38,6 +38,20 @@ medium_decreasing_reward = {
     3: Categorical([-4, -2, 2, 4]),
 }
 
+medium_increasing_reward = {
+    3: Categorical([-48, -24, 24, 48]),
+    2: Categorical([-8, -4, 4, 8]),
+    1: Categorical([-4, -2, 2, 4]),
+}
+
+# create narrow_large_increasing
+register(
+    name="medium_increasing",
+    branching=[1,2,2],
+    reward_inputs=["depth"],
+    reward_dictionary=medium_increasing_reward,
+)
+
 # create narrow_large_increasing
 register(
     name="medium_decreasing",

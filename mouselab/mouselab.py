@@ -156,7 +156,7 @@ class MouselabEnv(gym.Env):
 
         returns = [self.ground_truth[list(path)].sum() for path in self.optimal_paths()]
         if self.sample_term_reward:
-            return np.random.sample(returns)
+            return random.choice(returns)
         else:
             return np.mean(returns)
 
@@ -185,15 +185,15 @@ class MouselabEnv(gym.Env):
     def results(self, state, action):
         """Returns a list of possible results of taking action in state.
 
-        Each outcome is (probability, next_state, reward).
+        Each outcome is (next state probability, next_state, reward, reward probability).
         """
         if action == self.term_action:
-            yield (self._pct_reward, self.term_state, self.expected_term_reward(state))
+            yield (1, self.term_state, self.expected_term_reward(state), self._pct_reward)
         else:
             for r, p in state[action]:
                 s1 = list(state)
                 s1[action] = r
-                yield (p, tuple(s1), self.cost(action))
+                yield (p, tuple(s1), self.cost(action), 1)
 
     def action_features(self, action, state=None):
         state = state if state is not None else self._state
@@ -238,7 +238,7 @@ class MouselabEnv(gym.Env):
         return self.term_reward(state).expectation()
 
     def node_value(self, node, state=None):
-        """A distribution over total rewards after the given node."""
+        """A distribution over total rewards of the best step taken from the given node."""
         state = state if state is not None else self._state
         return max(
             (self.node_value(n1, state) + state[n1] for n1 in self.tree[node]),

@@ -100,7 +100,7 @@ def solve(env, hash_state=None, actions=None, blinkered=None):
     def Q(s, a):
         info["q"] += 1
         action_subset = subset_actions(a)
-        return round(sum(p * (r + V(s1, action_subset)) for p, s1, r in env.results(s, a)), 8)
+        return round(sum(sp * (rp * r + V(s1, action_subset)) for sp, s1, r, rp in env.results(s, a)), 8)
 
     @memoize(key=hash_key)
     def V(s, action_subset=None):

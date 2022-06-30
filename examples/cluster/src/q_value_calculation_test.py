@@ -29,6 +29,19 @@ register(
     reward_dictionary=small_decreasing_reward,
 )
 
+baby_increasing_reward = {
+    2: Categorical([-24, 24]),
+    1: Categorical([-4, 4]),
+}
+
+# create narrow_large_increasing
+register(
+    name="baby_increasing",
+    branching=[1,2],
+    reward_inputs=["depth"],
+    reward_dictionary=baby_increasing_reward,
+)
+
 medium_decreasing_reward = {
     1: Categorical([-48, -24, 24, 48]),
     2: Categorical([-8, -4, 4, 8]),
@@ -43,9 +56,30 @@ register(
     reward_dictionary=medium_decreasing_reward,
 )
 
+medium_increasing_reward = {
+    3: Categorical([-48, -24, 24, 48]),
+    2: Categorical([-8, -4, 4, 8]),
+    1: Categorical([-4, -2, 2, 4]),
+}
 
-experiment_setting = "medium_decreasing"
-ground_truth_file = "./exp_inputs/rewards/122_24_4_2.json"
+# create narrow_large_increasing
+register(
+    name="medium_increasing",
+    branching=[1,2,2],
+    reward_inputs=["depth"],
+    reward_dictionary=medium_increasing_reward,
+)
+
+experiment_setting = "medium_increasing"
+if experiment_setting == "narrow_small_decreasing":
+    ground_truth_file = "./exp_inputs/rewards/12_24_4_2.json"
+elif experiment_setting == "medium_decreasing":
+    ground_truth_file = "./exp_inputs/rewards/122_24_4.json"
+elif experiment_setting == "medium_increasing":
+    ground_truth_file = "./exp_inputs/rewards/122_2_4_24.json"
+else:
+    ground_truth_file = None
+
 # ground_truth_file = None
 
 # make folder we need
@@ -63,16 +97,19 @@ else:
 
 percent_rewarded_1 = 1.0
 
-env_increasing = MouselabEnv.new_symmetric_registered(experiment_setting)
-env_increasing._pct_reward = percent_rewarded_1;
+base_cost = 1
+
+env_increasing = MouselabEnv.new_symmetric_registered(experiment_setting, cost=base_cost * percent_rewarded_1)
+env_increasing._pct_reward = percent_rewarded_1
+
 
 q, v, pi, info = timed_solve_env(env_increasing, save_pi=save_pi, save_q=save_q, ground_truths=states)
 file_prefix = "q_dict" if save_q else "pi_dict"
 
-percent_rewarded_2 = 0.7
+percent_rewarded_2 = 0.5
 
-env_increasing = MouselabEnv.new_symmetric_registered(experiment_setting)
-env_increasing._pct_reward = percent_rewarded_2;
+env_increasing = MouselabEnv.new_symmetric_registered(experiment_setting, cost=base_cost * percent_rewarded_2)
+env_increasing._pct_reward = percent_rewarded_2
 
 q_2, v_2, pi_2, info_2 = timed_solve_env(env_increasing, save_pi=save_pi, save_q=save_q, ground_truths=states)
 
@@ -80,6 +117,8 @@ num_equal = 0
 num_diff = 0
 num_sub = 0
 num_int = 0
+
+print_diffs = False
 
 print("\nComparing directly")
 for state, outcomes_2 in info_2["pi_dictionary"].items():
@@ -95,37 +134,40 @@ for state, outcomes_2 in info_2["pi_dictionary"].items():
         # print("\n")
     elif set(actions_2).issubset(set(actions_1)):
         num_sub += 1
-        print("Subset")
-        print(state)
-        print("1:")
-        print(actions_1)
-        print(outcomes_1["q_values"])
-        print("2:")
-        print(actions_2)
-        print(outcomes_2["q_values"])
-        print("\n")
+        if print_diffs:
+            print("Subset")
+            print(state)
+            print("1:")
+            print(actions_1)
+            print(outcomes_1["q_values"])
+            print("2:")
+            print(actions_2)
+            print(outcomes_2["q_values"])
+            print("\n")
     elif len(set(actions_1).intersection(set(actions_2))):
         num_int += 1
-        print("Intersection")
-        print(state)
-        print("1:")
-        print(actions_1)
-        print(outcomes_1["q_values"])
-        print("2:")
-        print(actions_2)
-        print(outcomes_2["q_values"])
-        print("\n")
+        if print_diffs:
+            print("Intersection")
+            print(state)
+            print("1:")
+            print(actions_1)
+            print(outcomes_1["q_values"])
+            print("2:")
+            print(actions_2)
+            print(outcomes_2["q_values"])
+            print("\n")
     else:
         num_diff += 1
-        print("Difference")
-        print(state)
-        print("1:")
-        print(actions_1)
-        print(outcomes_1["q_values"])
-        print("2:")
-        print(actions_2)
-        print(outcomes_2["q_values"])
-        print("\n")
+        if print_diffs:
+            print("Difference")
+            print(state)
+            print("1:")
+            print(actions_1)
+            print(outcomes_1["q_values"])
+            print("2:")
+            print(actions_2)
+            print(outcomes_2["q_values"])
+            print("\n")
 
 print("{} vs. {}".format(percent_rewarded_1, percent_rewarded_2))
 print("Length of dict 1: {}".format(len(info["pi_dictionary"])))

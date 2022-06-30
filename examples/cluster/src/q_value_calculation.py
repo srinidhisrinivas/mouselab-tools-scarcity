@@ -35,12 +35,12 @@ print("Experiment setting: {}".format(experiment_setting))
 Path(__file__).resolve().parents[1].joinpath("output").mkdir(
     parents=True, exist_ok=True
 )
-
+base_cost = 1
 if ground_truth_file is not None:
     states = get_ground_truths_from_json(ground_truth_file)
 else:
     states = None
-env_increasing = MouselabEnv.new_symmetric_registered(experiment_setting)
+env_increasing = MouselabEnv.new_symmetric_registered(experiment_setting, cost=base_cost * percent_rewarded)
 env_increasing._pct_reward = percent_rewarded
 q, v, pi, info = timed_solve_env(env_increasing, save_pi=save_pi, save_q=save_q, ground_truths=states, verbose=True)
 
