@@ -73,12 +73,14 @@ level_nodes = {
 outcome_template = {
     "rewarded": {
         "num_clicks": [],
+        "click_level" : [],
         "scores": [],
         "term_rewards": [],
         "costs": []
     },
     "unrewarded": {
         "num_clicks": [],
+        "click_level" : [],
         "scores": [],
         "term_rewards": [],
         "costs": []
@@ -104,10 +106,10 @@ except:
 
 try:
     reward_pct_1 = float(sys.argv[4])
-    if reward_pct_1 < 0.50:
+    if reward_pct_1 < 0.0:
         raise "Too low"
 except:
-    raise "Reward pctg must be number between 0.50 and 1.00"
+    raise "Reward pctg must be number between 0.0 and 1.00"
 
 
 # --- Building trials for simulation ---
@@ -198,8 +200,16 @@ for policy in policies_to_simulate:
             trial_reward = 0
             trial_cost = 0
             num_clicks = 0
+            click_level_tot = 0
             while True:
                 action = p_func(current_state, experiment_setting)
+                if action in level_nodes[experiment_setting]["1"]:
+                    click_level_tot += 1
+                elif action in level_nodes[experiment_setting]["2"]:
+                    click_level_tot += 2
+                elif action in level_nodes[experiment_setting]["3"]:
+                    click_level_tot += 3
+
                 current_state, reward, done, _ = env.step(action)
                 if done:
                     trial_reward += reward
@@ -208,6 +218,12 @@ for policy in policies_to_simulate:
                     simulation_trial_outcomes[policy][trial_type]["term_rewards"].append(trial_reward)
                     simulation_trial_outcomes[policy][trial_type]["costs"].append(trial_cost)
                     simulation_trial_outcomes[policy][trial_type]["num_clicks"].append(num_clicks)
+                    if num_clicks == 0:
+                        simulation_trial_outcomes[policy][trial_type]["click_level"].append(0)
+                    else:
+                        simulation_trial_outcomes[policy][trial_type]["click_level"].append(
+                            (click_level_tot / num_clicks)
+                        )
                     break
                 else:
                     num_clicks += 1
@@ -257,6 +273,8 @@ for policy, outcomes in simulation_trial_outcomes.items():
         outcomes["rewarded"]["costs"])))
     print("\t\tAverage num clicks:\t {0:0.3f}".format(
         sum(outcomes["rewarded"]["num_clicks"]) / len(outcomes["rewarded"]["num_clicks"])))
+    print("\t\tAverage click level:\t {0:0.3f}".format(
+        sum(outcomes["rewarded"]["click_level"]) / len(outcomes["rewarded"]["click_level"])))
     print("\t\tAverage score:\t\t {0:0.3f}".format(
         sum(outcomes["rewarded"]["scores"]) / len(outcomes["rewarded"]["scores"])))
     print("\t\tTotal score:\t\t {0:0.3f}".format(
@@ -275,6 +293,8 @@ for policy, outcomes in simulation_trial_outcomes.items():
             outcomes["unrewarded"]["costs"])))
         print("\t\tAverage num clicks:\t {0:0.3f}".format(
             sum(outcomes["unrewarded"]["num_clicks"]) / len(outcomes["unrewarded"]["num_clicks"])))
+        print("\t\tAverage click level:\t {0:0.3f}".format(
+            sum(outcomes["unrewarded"]["click_level"]) / len(outcomes["unrewarded"]["click_level"])))
         print("\t\tAverage score:\t\t {0:0.3f}".format(
             sum(outcomes["unrewarded"]["scores"]) / len(outcomes["unrewarded"]["scores"])))
         print("\t\tTotal score:\t\t {0:0.3f}".format(
@@ -292,6 +312,8 @@ for policy, outcomes in simulation_trial_outcomes.items():
         outcomes["combined"]["costs"])))
     print("\t\tAverage num clicks:\t {0:0.3f}".format(
         sum(outcomes["combined"]["num_clicks"]) / len(outcomes["combined"]["num_clicks"])))
+    print("\t\tAverage click level:\t {0:0.3f}".format(
+        sum(outcomes["combined"]["click_level"]) / len(outcomes["combined"]["click_level"])))
     print("\t\tAverage score:\t\t {0:0.3f}".format(
         sum(outcomes["combined"]["scores"]) / len(outcomes["combined"]["scores"])))
     print("\t\tTotal score:\t\t {0:0.3f}".format(
