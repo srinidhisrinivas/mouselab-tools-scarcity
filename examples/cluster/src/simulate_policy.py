@@ -184,6 +184,10 @@ policy_functions = {
 policies_to_simulate = ["optimal", "level-1", "level-2", "level-3"]  # optimal, level-1, level-2, level-3
 simulation_trial_outcomes = {policy: deepcopy(outcome_template) for policy in policies_to_simulate}
 
+save_click_sequences_of = ["optimal"]
+
+click_sequences = { policy: [] for policy in save_click_sequences_of }
+
 for policy in policies_to_simulate:
     print("Simulating policy: {}".format(policy))
     p_func = policy_functions[policy]
@@ -194,6 +198,7 @@ for policy in policies_to_simulate:
                     experiment_setting, ground_truth=trial, cost=base_cost * reward_pct_1,
                     term_belief=False, sample_term_reward=True
             )
+            clicks_made = []
             env._is_scarce = True if trial_type == "unrewarded" else False
             current_state = env.init
             trial_score = 0
@@ -210,6 +215,7 @@ for policy in policies_to_simulate:
                 elif action in level_nodes[experiment_setting]["3"]:
                     click_level_tot += 3
 
+                clicks_made.append(action)
                 current_state, reward, done, _ = env.step(action)
                 if done:
                     trial_reward += reward
@@ -224,6 +230,11 @@ for policy in policies_to_simulate:
                         simulation_trial_outcomes[policy][trial_type]["click_level"].append(
                             (click_level_tot / num_clicks)
                         )
+                    if policy in save_click_sequences_of:
+                        click_sequences[policy].append({
+                            "stateRewards": trial,
+                            "clicks": clicks_made
+                        })
                     break
                 else:
                     num_clicks += 1
@@ -333,3 +344,15 @@ if len(per_trial_benefits) > 0:
     print("Benefit of policy {} in comparison to:\n".format(baseline_policy))
     for policy, factor in per_trial_benefits.items():
         print("\t{0}: {1:0.4f}".format(policy, factor))
+
+
+
+path = (
+    Path(__file__)
+        .resolve()
+        .parents[1]
+        .joinpath(f"output/{reward_pct_1}_clicks_{experiment_setting}_.pickle")
+)
+
+with open(path, "wb") as f:
+    pickle.dump(click_sequences, f)
